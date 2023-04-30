@@ -14259,7 +14259,8 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="DC-vs.-Marvel">DC vs. Marvel<a class="anchor-link" href="#DC-vs.-Marvel">&#182;</a></h1><p>I am attempting to determine which publisher came up with a character/idea/location/power/etc. first.</p>
+<h1 id="DC-vs.-Marvel">DC vs. Marvel<a class="anchor-link" href="#DC-vs.-Marvel">&#182;</a></h1><p>There are many comparable abilities, characters, locations, substances, etc. in the DC and Marvel universes.</p>
+<p>For each pair, I am attempting to determine which publisher had the original idea.</p>
 <h3 id="Packages">Packages<a class="anchor-link" href="#Packages">&#182;</a></h3>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14273,6 +14274,7 @@ a.anchor-link {
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">import</span> <span class="nn">plotly</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -14314,9 +14316,9 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#My jobs spreadsheet.</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Users\Rohan\Documents\Data Science\To Work On\DCMarvel\DCMarvel.xlsx&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.\DCMarvel.xlsx&#39;</span><span class="p">)</span>
 
-
+<span class="c1">#Create URL text from columns.</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Rollover&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href = &#39;&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Reference&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39; style = &#39;color: #000000;&#39;&gt;&lt;b&gt;&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Character&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;First Appearance&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&lt;br /&gt;&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%b, %Y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span> 
 <span class="n">df</span>
@@ -14358,12 +14360,13 @@ a.anchor-link {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Character</th>
+      <th>Description</th>
       <th>Group</th>
+      <th>Character</th>
+      <th>Column2</th>
       <th>First Appearance</th>
       <th>Date</th>
       <th>Reference</th>
-      <th>Description</th>
       <th>Original?</th>
       <th>Rollover</th>
     </tr>
@@ -14371,729 +14374,1011 @@ a.anchor-link {
   <tbody>
     <tr>
       <th>0</th>
-      <td>Thanos</td>
-      <td>Marvel</td>
-      <td>Iron Man #55</td>
-      <td>1972-10-01</td>
-      <td>https://marvel.fandom.com/wiki/Thanos_(Earth-616)</td>
-      <td>Universal Warlord</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Than...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Darkseid</td>
+      <td>African Fighter King</td>
       <td>DC</td>
-      <td>Superman's Pal, Jimmy Olsen #134</td>
-      <td>1970-12-01</td>
-      <td>https://dc.fandom.com/wiki/Darkseid</td>
-      <td>Universal Warlord</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Darkseid...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Deathstroke</td>
-      <td>DC</td>
-      <td>New Teen Titans #2</td>
-      <td>1980-12-01</td>
-      <td>https://dc.fandom.com/wiki/Slade_Wilson</td>
-      <td>Masked Mercenary</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Slade_Wi...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Deadpool</td>
-      <td>Marvel</td>
-      <td>The New Mutans #98</td>
-      <td>1990-12-01</td>
-      <td>https://marvel.fandom.com/wiki/Wade_Wilson_(Ea...</td>
-      <td>Masked Mercenary</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wade...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Tobias Whale</td>
-      <td>DC</td>
-      <td>Black Lightning #1</td>
-      <td>1977-04-01</td>
-      <td>https://dc.fandom.com/wiki/Tobias_Whale</td>
-      <td>Large Crime Boss</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Tobias_W...</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Kingpin</td>
-      <td>Marvel</td>
-      <td>Amazing Spider-Man #50</td>
-      <td>1967-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Wilson_Fisk_(Ea...</td>
-      <td>Large Crime Boss</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wils...</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Aquaman</td>
-      <td>DC</td>
-      <td>More Fun Comics #73</td>
-      <td>1941-11-01</td>
-      <td>https://dc.fandom.com/wiki/Orin_(New_Earth)</td>
-      <td>Lord of the Sea</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Orin_(Ne...</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Namor</td>
-      <td>Marvel</td>
-      <td>Motion Picture Funnies Weekly Vol 1 1</td>
-      <td>1939-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Namor_McKenzie_...</td>
-      <td>Lord of the Sea</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Namo...</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Magneto</td>
-      <td>Marvel</td>
-      <td>X-Men #1</td>
-      <td>1963-07-01</td>
-      <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
-      <td>Master of Magneticism</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Dr. Polaris</td>
-      <td>DC</td>
-      <td>Green Lantern Vol 2 #21</td>
-      <td>1963-06-01</td>
-      <td>https://dc.fandom.com/wiki/Neal_Emerson_(New_E...</td>
-      <td>Master of Magneticism</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Neal_Eme...</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Dr. Strange</td>
-      <td>Marvel</td>
-      <td>Strange Tales #110</td>
-      <td>1963-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Stephen_Strange...</td>
-      <td>Mystic Male</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Step...</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Dr. Fate</td>
-      <td>DC</td>
-      <td>More Fun Comics #55</td>
-      <td>1940-05-01</td>
-      <td>https://dc.fandom.com/wiki/Kent_Nelson_(New_Ea...</td>
-      <td>Mystic Male</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Kent_Nel...</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Scarlet Witch</td>
-      <td>Marvel</td>
-      <td>X-Men #4</td>
-      <td>1964-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Wanda_Maximoff_...</td>
-      <td>Mystic Female</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wand...</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Zatanna</td>
-      <td>DC</td>
-      <td>Hawkman #4</td>
-      <td>1964-11-01</td>
-      <td>https://dc.fandom.com/wiki/Zatanna_Zatara_(New...</td>
-      <td>Mystic Female</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Zatanna_...</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>Hawkeye</td>
-      <td>Marvel</td>
-      <td>Tales of Suspense #57</td>
-      <td>1964-06-01</td>
-      <td>https://marvel.fandom.com/wiki/Clinton_Barton_...</td>
-      <td>Archer</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Clin...</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>Green Arrow</td>
-      <td>DC</td>
-      <td>Adventure Comics #250</td>
-      <td>1958-07-01</td>
-      <td>https://dc.fandom.com/wiki/Oliver_Queen_(New_E...</td>
-      <td>Archer</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Oliver_Q...</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>Elongated Man</td>
-      <td>DC</td>
-      <td>The Flash #112</td>
-      <td>1960-05-01</td>
-      <td>https://dc.fandom.com/wiki/Ralph_Dibny_(New_Ea...</td>
-      <td>Stretchy</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Ralph_Di...</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>Mr. Fantastic</td>
-      <td>Marvel</td>
-      <td>Fantastic Four #1</td>
-      <td>1961-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Reed_Richards_(...</td>
-      <td>Stretchy</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Reed...</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Black Cat</td>
-      <td>Marvel</td>
-      <td>Amazing Spider-Man #194</td>
-      <td>1979-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Felicia_Hardy_(...</td>
-      <td>Cat Burglar</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Feli...</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>Catwoman</td>
-      <td>DC</td>
-      <td>Batman #1</td>
-      <td>1940-03-01</td>
-      <td>https://dc.fandom.com/wiki/Selina_Kyle_(Earth-...</td>
-      <td>Cat Burglar</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Selina_K...</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>Vision</td>
-      <td>Marvel</td>
-      <td>Avengers #57</td>
-      <td>1968-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Vision_(Earth-616)</td>
-      <td>Caped Android</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Visi...</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>Red Tornado</td>
-      <td>DC</td>
-      <td>Justice League of America #64</td>
-      <td>1968-08-01</td>
-      <td>https://dc.fandom.com/wiki/Red_Tornado_(New_Ea...</td>
-      <td>Caped Android</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Red_Torn...</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>Professor X</td>
-      <td>Marvel</td>
-      <td>X-Men #1</td>
-      <td>1963-07-01</td>
-      <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
-      <td>Paraplegic Professor</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>Niles Caulder</td>
-      <td>DC</td>
-      <td>My Greatest Adventure #80</td>
-      <td>1963-06-01</td>
-      <td>https://dc.fandom.com/wiki/Niles_Caulder_(New_...</td>
-      <td>Paraplegic Professor</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Niles_Ca...</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>Ultron</td>
-      <td>Marvel</td>
-      <td>Avengers #54</td>
-      <td>1968-05-01</td>
-      <td>https://marvel.fandom.com/wiki/Ultron_(Earth-616)</td>
-      <td>Technological Conqueror</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Ultr...</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>Braniac</td>
-      <td>DC</td>
-      <td>Action Comics #242</td>
-      <td>1958-07-01</td>
-      <td>https://dc.fandom.com/wiki/Vril_Dox_I_(New_Earth)</td>
-      <td>Technological Conqueror</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Vril_Dox...</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>Nova Corps</td>
-      <td>Marvel</td>
-      <td>Fantastic Four #205</td>
-      <td>1979-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Nova_Corps_(Ear...</td>
-      <td>Universal Corps</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nova...</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>Green Lantern Corps</td>
-      <td>DC</td>
-      <td>Showcase # 22</td>
-      <td>1959-09-01</td>
-      <td>https://dc.fandom.com/wiki/Green_Lantern_Corps</td>
-      <td>Universal Corps</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Green_La...</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>Electro</td>
-      <td>Marvel</td>
-      <td>Amazing Spider-Man #9</td>
-      <td>1963-11-01</td>
-      <td>https://marvel.fandom.com/wiki/Maxwell_Dillon_...</td>
-      <td>Lightnining</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Maxw...</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>Black Lightning</td>
-      <td>DC</td>
-      <td>Black Lightning #1</td>
-      <td>1977-04-01</td>
-      <td>https://dc.fandom.com/wiki/Black_Lightning</td>
-      <td>Lightnining</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Black_Li...</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>Hercules</td>
-      <td>Marvel</td>
-      <td>Young Allies #16</td>
-      <td>1945-05-01</td>
-      <td>https://marvel.fandom.com/wiki/Hercules_Panhel...</td>
-      <td>Hercules</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Herc...</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>Hercules</td>
-      <td>DC</td>
-      <td>All-Star Comics #8</td>
-      <td>1942-01-01</td>
-      <td>https://dc.fandom.com/wiki/Hercules</td>
-      <td>Hercules</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Hercules...</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>Zeus</td>
-      <td>Marvel</td>
-      <td>Venus #5</td>
-      <td>1949-06-01</td>
-      <td>https://marvel.fandom.com/wiki/Zeus_Panhelleni...</td>
-      <td>Zeus</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Zeus...</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>Zeus</td>
-      <td>DC</td>
-      <td>Superman #28</td>
-      <td>1944-05-01</td>
-      <td>https://dc.fandom.com/wiki/Zeus</td>
-      <td>Zeus</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Zeus' st...</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>Ant-Man</td>
-      <td>Marvel</td>
-      <td>Strange Tales #75</td>
-      <td>1960-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Henry_Pym_(Eart...</td>
-      <td>Size Manipulation</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Henr...</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>The Atom</td>
-      <td>DC</td>
-      <td>Showcase #34</td>
-      <td>1961-10-01</td>
-      <td>https://dc.fandom.com/wiki/Raymond_Palmer</td>
-      <td>Size Manipulation</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Raymond_...</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>Deathlock</td>
-      <td>Marvel</td>
-      <td>Astonishing Tales #25</td>
-      <td>1974-05-01</td>
-      <td>https://marvel.fandom.com/wiki/Luther_Manning_...</td>
-      <td>Human Robot</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Luth...</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>Cyborg</td>
-      <td>DC</td>
-      <td>DC Comics Presents #26</td>
-      <td>1980-10-01</td>
-      <td>https://dc.fandom.com/wiki/Victor_Stone</td>
-      <td>Human Robot</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Victor_S...</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>Quicksilver</td>
-      <td>Marvel</td>
-      <td>X-Men #4</td>
-      <td>1964-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Pietro_Maximoff...</td>
-      <td>Fast Runner</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Piet...</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>Flash</td>
-      <td>DC</td>
-      <td>\tFlash Comics #1</td>
-      <td>1940-01-01</td>
-      <td>https://dc.fandom.com/wiki/Jay_Garrick</td>
-      <td>Fast Runner</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Jay_Garr...</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>Sandman</td>
-      <td>Marvel</td>
-      <td>The Amazing Spider-Man #4</td>
-      <td>1963-09-01</td>
-      <td>https://marvel.fandom.com/wiki/William_Baker_(...</td>
-      <td>Malleable Male</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Will...</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>Clayface</td>
-      <td>DC</td>
-      <td>Detective Comics #40</td>
-      <td>1940-06-01</td>
-      <td>https://dc.fandom.com/wiki/Clayface</td>
-      <td>Malleable Male</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Clayface...</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>Ghost Rider</td>
-      <td>Marvel</td>
-      <td>Marvel Spotlight #5</td>
-      <td>1972-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Johnathon_Blaze...</td>
-      <td>Human/Demon</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/John...</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>Etrigan</td>
-      <td>DC</td>
-      <td>The Deomn #1</td>
-      <td>1972-09-01</td>
-      <td>https://dc.fandom.com/wiki/Etrigan</td>
-      <td>Human/Demon</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Etrigan'...</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>The Avengers</td>
-      <td>Marvel</td>
-      <td>Avengers #1</td>
-      <td>1963-09-01</td>
-      <td>https://marvel.fandom.com/wiki/Avengers_(Earth...</td>
-      <td>Team</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Aven...</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>Justice League</td>
-      <td>DC</td>
-      <td>The Brave and the Bold #28</td>
-      <td>1960-03-01</td>
-      <td>https://dc.fandom.com/wiki/Justice_League</td>
-      <td>Team</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Justice_...</td>
-    </tr>
-    <tr>
-      <th>46</th>
-      <td>Black Widow</td>
-      <td>Marvel</td>
-      <td>Tales of Suspense #52</td>
-      <td>1964-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Natalia_Romanov...</td>
-      <td>Blond &amp; Leather Martial Artist</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nata...</td>
-    </tr>
-    <tr>
-      <th>47</th>
-      <td>Black Canary</td>
-      <td>DC</td>
-      <td>Justice League of America #75</td>
-      <td>1969-11-01</td>
-      <td>https://dc.fandom.com/wiki/Black_Canary</td>
-      <td>Blond &amp; Leather Martial Artist</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Black_Ca...</td>
-    </tr>
-    <tr>
-      <th>48</th>
-      <td>Tigra</td>
-      <td>Marvel</td>
-      <td>The Cat #1</td>
-      <td>1972-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Greer_Nelson_(E...</td>
-      <td>Feline</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Gree...</td>
-    </tr>
-    <tr>
-      <th>49</th>
-      <td>Cheetah</td>
-      <td>DC</td>
-      <td>Wonder Woman #6</td>
-      <td>1943-09-01</td>
-      <td>https://dc.fandom.com/wiki/Cheetah</td>
-      <td>Feline</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Cheetah'...</td>
-    </tr>
-    <tr>
-      <th>50</th>
-      <td>Boomerang</td>
-      <td>Marvel</td>
-      <td>Tales to Astonish #81</td>
-      <td>1966-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Frederick_Myers...</td>
-      <td>Boomerang Guy</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Fred...</td>
-    </tr>
-    <tr>
-      <th>51</th>
-      <td>Captain Boomerang</td>
-      <td>DC</td>
-      <td>The Flash #117</td>
-      <td>1960-12-01</td>
-      <td>https://dc.fandom.com/wiki/Captain_Boomerang</td>
-      <td>Boomerang Guy</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Captain_...</td>
-    </tr>
-    <tr>
-      <th>52</th>
       <td>Red Lion</td>
-      <td>DC</td>
+      <td>NaN</td>
       <td>Deathstroke: Rebirth #1</td>
       <td>2016-10-01</td>
       <td>https://dc.fandom.com/wiki/Matthew_Bland_(Prim...</td>
-      <td>African Fighter King</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Matthew_...</td>
     </tr>
     <tr>
-      <th>53</th>
-      <td>Black Panther</td>
+      <th>1</th>
+      <td>African Fighter King</td>
       <td>Marvel</td>
+      <td>Black Panther</td>
+      <td>NaN</td>
       <td>Fantastic Four #52</td>
       <td>1966-04-01</td>
       <td>https://marvel.fandom.com/wiki/T%27Challa_(Ear...</td>
-      <td>African Fighter King</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/T%27...</td>
     </tr>
     <tr>
-      <th>54</th>
-      <td>Promethium</td>
+      <th>2</th>
+      <td>Archer</td>
       <td>DC</td>
-      <td>New Teen Titans #9</td>
-      <td>1981-07-01</td>
-      <td>https://dc.fandom.com/wiki/Promethium</td>
-      <td>Rare Energy Metal</td>
+      <td>Green Arrow</td>
+      <td>NaN</td>
+      <td>Adventure Comics #250</td>
+      <td>1958-07-01</td>
+      <td>https://dc.fandom.com/wiki/Oliver_Queen_(New_E...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Oliver_Q...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Archer</td>
+      <td>Marvel</td>
+      <td>Hawkeye</td>
+      <td>NaN</td>
+      <td>Tales of Suspense #57</td>
+      <td>1964-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Clinton_Barton_...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Promethi...</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Clin...</td>
     </tr>
     <tr>
-      <th>55</th>
-      <td>Vibranium</td>
-      <td>Marvel</td>
-      <td>Daredevil #13</td>
-      <td>1965-12-01</td>
-      <td>https://marvel.fandom.com/wiki/Vibranium</td>
-      <td>Rare Energy Metal</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Vibr...</td>
-    </tr>
-    <tr>
-      <th>56</th>
-      <td>Bullseye</td>
-      <td>Marvel</td>
-      <td>Daredevil #131</td>
-      <td>1975-12-01</td>
-      <td>https://marvel.fandom.com/wiki/Bullseye_(Leste...</td>
-      <td>Marksman</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Bull...</td>
-    </tr>
-    <tr>
-      <th>57</th>
-      <td>Deadshot</td>
+      <th>4</th>
+      <td>Blond &amp; Leather Martial Artist</td>
       <td>DC</td>
-      <td>Detective Comics #474</td>
-      <td>1977-12-01</td>
-      <td>https://dc.fandom.com/wiki/Deadshot</td>
-      <td>Marksman</td>
+      <td>Black Canary</td>
+      <td>NaN</td>
+      <td>Justice League of America #75</td>
+      <td>1969-11-01</td>
+      <td>https://dc.fandom.com/wiki/Black_Canary</td>
       <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Deadshot...</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Black_Ca...</td>
     </tr>
     <tr>
-      <th>58</th>
-      <td>Yggardis</td>
-      <td>DC</td>
-      <td>Mystery in Space #60</td>
-      <td>1960-06-01</td>
-      <td>https://dc.fandom.com/wiki/Yggardis,_the_Livin...</td>
-      <td>Sentient Planet</td>
+      <th>5</th>
+      <td>Blond &amp; Leather Martial Artist</td>
+      <td>Marvel</td>
+      <td>Black Widow</td>
+      <td>NaN</td>
+      <td>Tales of Suspense #52</td>
+      <td>1964-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Natalia_Romanov...</td>
       <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Yggardis...</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nata...</td>
     </tr>
     <tr>
-      <th>59</th>
-      <td>Ego</td>
-      <td>Marvel</td>
-      <td>Thor #132</td>
-      <td>1966-06-01</td>
-      <td>https://marvel.fandom.com/wiki/Earth-616</td>
-      <td>Sentient Planet</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Eart...</td>
+      <th>6</th>
+      <td>Boomerang Male</td>
+      <td>DC</td>
+      <td>Captain Boomerang</td>
+      <td>NaN</td>
+      <td>The Flash #117</td>
+      <td>1960-12-01</td>
+      <td>https://dc.fandom.com/wiki/Captain_Boomerang</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Captain_...</td>
     </tr>
     <tr>
-      <th>60</th>
-      <td>Wakanda</td>
+      <th>7</th>
+      <td>Boomerang Male</td>
       <td>Marvel</td>
-      <td>Fantastic Four #52</td>
+      <td>Boomerang</td>
+      <td>NaN</td>
+      <td>Tales to Astonish #81</td>
       <td>1966-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Wakanda</td>
-      <td>Technologically Advanced African Location</td>
+      <td>https://marvel.fandom.com/wiki/Frederick_Myers...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Waka...</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Fred...</td>
     </tr>
     <tr>
-      <th>61</th>
-      <td>Gorilla City</td>
+      <th>8</th>
+      <td>Caped Android</td>
       <td>DC</td>
-      <td>The Flash #106</td>
-      <td>1959-05-01</td>
-      <td>https://dc.fandom.com/wiki/Gorilla_City</td>
-      <td>Technologically Advanced African Location</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Gorilla_...</td>
+      <td>Red Tornado</td>
+      <td>NaN</td>
+      <td>Justice League of America #64</td>
+      <td>1968-08-01</td>
+      <td>https://dc.fandom.com/wiki/Red_Tornado_(New_Ea...</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Red_Torn...</td>
     </tr>
     <tr>
-      <th>62</th>
-      <td>Nanda Parbat</td>
-      <td>DC</td>
-      <td>Strange Adventures #216</td>
-      <td>1969-02-01</td>
-      <td>https://dc.fandom.com/wiki/Nanda_Parbat</td>
-      <td>Mystic Himalayan Location</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://dc.fandom.com/wiki/Nanda_Pa...</td>
-    </tr>
-    <tr>
-      <th>63</th>
-      <td>Kamar Taj</td>
+      <th>9</th>
+      <td>Caped Android</td>
       <td>Marvel</td>
-      <td>Strange Tales #110</td>
-      <td>1963-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Kamar-Taj</td>
-      <td>Mystic Himalayan Location</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Kama...</td>
+      <td>Vision</td>
+      <td>NaN</td>
+      <td>Avengers #57</td>
+      <td>1968-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Vision_(Earth-616)</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Visi...</td>
     </tr>
     <tr>
-      <th>64</th>
-      <td>Wonder Twins</td>
+      <th>10</th>
+      <td>Cat Burglar</td>
       <td>DC</td>
+      <td>Catwoman</td>
+      <td>NaN</td>
+      <td>Batman #1</td>
+      <td>1940-03-01</td>
+      <td>https://dc.fandom.com/wiki/Selina_Kyle_(Earth-...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Selina_K...</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Cat Burglar</td>
+      <td>Marvel</td>
+      <td>Black Cat</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #194</td>
+      <td>1979-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Felicia_Hardy_(...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Feli...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Contact Twins</td>
+      <td>DC</td>
+      <td>Wonder Twins</td>
+      <td>NaN</td>
       <td>Extreme Justice #9</td>
       <td>1995-10-01</td>
       <td>https://dc.fandom.com/wiki/Wonder_Twins</td>
-      <td>Contact Twins</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Wonder_T...</td>
     </tr>
     <tr>
-      <th>65</th>
-      <td>Northstar &amp; Aurora</td>
+      <th>13</th>
+      <td>Contact Twins</td>
       <td>Marvel</td>
+      <td>Northstar &amp; Aurora</td>
+      <td>NaN</td>
       <td>X-Men #120</td>
       <td>1979-01-01</td>
       <td>https://marvel.fandom.com/wiki/Jean-Paul_Beaub...</td>
-      <td>Contact Twins</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Jean...</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Fast Runner</td>
+      <td>DC</td>
+      <td>Flash</td>
+      <td>NaN</td>
+      <td>\tFlash Comics #1</td>
+      <td>1940-01-01</td>
+      <td>https://dc.fandom.com/wiki/Jay_Garrick</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Jay_Garr...</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Fast Runner</td>
+      <td>Marvel</td>
+      <td>Quicksilver</td>
+      <td>NaN</td>
+      <td>X-Men #4</td>
+      <td>1964-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Pietro_Maximoff...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Piet...</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Feline</td>
+      <td>DC</td>
+      <td>Cheetah</td>
+      <td>NaN</td>
+      <td>Wonder Woman #6</td>
+      <td>1943-09-01</td>
+      <td>https://dc.fandom.com/wiki/Cheetah</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Cheetah'...</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Feline</td>
+      <td>Marvel</td>
+      <td>Tigra</td>
+      <td>NaN</td>
+      <td>The Cat #1</td>
+      <td>1972-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Greer_Nelson_(E...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Gree...</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Flaming Body</td>
+      <td>DC</td>
+      <td>Fire</td>
+      <td>NaN</td>
+      <td>DC Comics Presents #46</td>
+      <td>1982-06-01</td>
+      <td>https://dc.fandom.com/wiki/Beatriz_da_Costa_(N...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Beatriz_...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Flaming Body</td>
+      <td>Marvel</td>
+      <td>Human Torch</td>
+      <td>NaN</td>
+      <td>Fantastic Four #1</td>
+      <td>1961-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Jonathan_Storm_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Jona...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Hercules</td>
+      <td>DC</td>
+      <td>Hercules</td>
+      <td>NaN</td>
+      <td>All-Star Comics #8</td>
+      <td>1942-01-01</td>
+      <td>https://dc.fandom.com/wiki/Hercules</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Hercules...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Hercules</td>
+      <td>Marvel</td>
+      <td>Hercules</td>
+      <td>NaN</td>
+      <td>Young Allies #16</td>
+      <td>1945-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Hercules_Panhel...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Herc...</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Human Robot</td>
+      <td>DC</td>
+      <td>Cyborg</td>
+      <td>NaN</td>
+      <td>DC Comics Presents #26</td>
+      <td>1980-10-01</td>
+      <td>https://dc.fandom.com/wiki/Victor_Stone</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Victor_S...</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Human Robot</td>
+      <td>Marvel</td>
+      <td>Deathlock</td>
+      <td>NaN</td>
+      <td>Astonishing Tales #25</td>
+      <td>1974-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Luther_Manning_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Luth...</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Human/Demon</td>
+      <td>DC</td>
+      <td>Etrigan</td>
+      <td>NaN</td>
+      <td>The Deomn #1</td>
+      <td>1972-09-01</td>
+      <td>https://dc.fandom.com/wiki/Etrigan</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Etrigan'...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Human/Demon</td>
+      <td>Marvel</td>
+      <td>Ghost Rider</td>
+      <td>NaN</td>
+      <td>Marvel Spotlight #5</td>
+      <td>1972-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Johnathon_Blaze...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/John...</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Hunter/Tracker Villain</td>
+      <td>DC</td>
+      <td>Hunter</td>
+      <td>NaN</td>
+      <td>Superboy #199</td>
+      <td>1973-11-01</td>
+      <td>https://dc.fandom.com/wiki/Adam_Orion_(Pre-Zer...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Adam_Ori...</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Hunter/Tracker Villain</td>
+      <td>Marvel</td>
+      <td>Kraven the Hunter</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #15</td>
+      <td>1964-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Sergei_Kravinof...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Serg...</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Large Crime Boss</td>
+      <td>DC</td>
+      <td>Tobias Whale</td>
+      <td>NaN</td>
+      <td>Black Lightning #1</td>
+      <td>1977-04-01</td>
+      <td>https://dc.fandom.com/wiki/Tobias_Whale</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Tobias_W...</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Large Crime Boss</td>
+      <td>Marvel</td>
+      <td>Kingpin</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #50</td>
+      <td>1967-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Wilson_Fisk_(Ea...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wils...</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Lightnining</td>
+      <td>DC</td>
+      <td>Black Lightning</td>
+      <td>NaN</td>
+      <td>Black Lightning #1</td>
+      <td>1977-04-01</td>
+      <td>https://dc.fandom.com/wiki/Black_Lightning</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Black_Li...</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Lightnining</td>
+      <td>Marvel</td>
+      <td>Electro</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #9</td>
+      <td>1963-11-01</td>
+      <td>https://marvel.fandom.com/wiki/Maxwell_Dillon_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Maxw...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Lord of the Sea</td>
+      <td>DC</td>
+      <td>Aquaman</td>
+      <td>NaN</td>
+      <td>More Fun Comics #73</td>
+      <td>1941-11-01</td>
+      <td>https://dc.fandom.com/wiki/Orin_(New_Earth)</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Orin_(Ne...</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Lord of the Sea</td>
+      <td>Marvel</td>
+      <td>Namor</td>
+      <td>NaN</td>
+      <td>Motion Picture Funnies Weekly Vol 1 1</td>
+      <td>1939-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Namor_McKenzie_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Namo...</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Malleable Male</td>
+      <td>DC</td>
+      <td>Clayface</td>
+      <td>NaN</td>
+      <td>Detective Comics #40</td>
+      <td>1940-06-01</td>
+      <td>https://dc.fandom.com/wiki/Clayface</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Clayface...</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Malleable Male</td>
+      <td>Marvel</td>
+      <td>Sandman</td>
+      <td>NaN</td>
+      <td>The Amazing Spider-Man #4</td>
+      <td>1963-09-01</td>
+      <td>https://marvel.fandom.com/wiki/William_Baker_(...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Will...</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Marksman</td>
+      <td>DC</td>
+      <td>Deadshot</td>
+      <td>NaN</td>
+      <td>Detective Comics #474</td>
+      <td>1977-12-01</td>
+      <td>https://dc.fandom.com/wiki/Deadshot</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Deadshot...</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Marksman</td>
+      <td>Marvel</td>
+      <td>Bullseye</td>
+      <td>NaN</td>
+      <td>Daredevil #131</td>
+      <td>1975-12-01</td>
+      <td>https://marvel.fandom.com/wiki/Bullseye_(Leste...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Bull...</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Masked Mercenary</td>
+      <td>DC</td>
+      <td>Deathstroke</td>
+      <td>NaN</td>
+      <td>New Teen Titans #2</td>
+      <td>1980-12-01</td>
+      <td>https://dc.fandom.com/wiki/Slade_Wilson</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Slade_Wi...</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Masked Mercenary</td>
+      <td>Marvel</td>
+      <td>Deadpool</td>
+      <td>NaN</td>
+      <td>The New Mutans #98</td>
+      <td>1990-12-01</td>
+      <td>https://marvel.fandom.com/wiki/Wade_Wilson_(Ea...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wade...</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Master of Magneticism</td>
+      <td>DC</td>
+      <td>Dr. Polaris</td>
+      <td>NaN</td>
+      <td>Green Lantern Vol 2 #21</td>
+      <td>1963-06-01</td>
+      <td>https://dc.fandom.com/wiki/Neal_Emerson_(New_E...</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Neal_Eme...</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Master of Magneticism</td>
+      <td>Marvel</td>
+      <td>Magneto</td>
+      <td>NaN</td>
+      <td>X-Men #1</td>
+      <td>1963-07-01</td>
+      <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Material Mimicry Villain</td>
+      <td>DC</td>
+      <td>Amazing-Man</td>
+      <td>NaN</td>
+      <td>All-Star Squadron #23</td>
+      <td>1983-07-01</td>
+      <td>https://dc.fandom.com/wiki/William_Everett,_Sr...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/William_...</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Material Mimicry Villain</td>
+      <td>Marvel</td>
+      <td>Absorbing Man</td>
+      <td>NaN</td>
+      <td>Journey Into Mystery #114</td>
+      <td>1965-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Carl_Creel_(Ear...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Carl...</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Mystic Female</td>
+      <td>DC</td>
+      <td>Zatanna</td>
+      <td>NaN</td>
+      <td>Hawkman #4</td>
+      <td>1964-11-01</td>
+      <td>https://dc.fandom.com/wiki/Zatanna_Zatara_(New...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Zatanna_...</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Mystic Female</td>
+      <td>Marvel</td>
+      <td>Scarlet Witch</td>
+      <td>NaN</td>
+      <td>X-Men #4</td>
+      <td>1964-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Wanda_Maximoff_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wand...</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Mystic Himalayan Location</td>
+      <td>DC</td>
+      <td>Nanda Parbat</td>
+      <td>NaN</td>
+      <td>Strange Adventures #216</td>
+      <td>1969-02-01</td>
+      <td>https://dc.fandom.com/wiki/Nanda_Parbat</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Nanda_Pa...</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Mystic Himalayan Location</td>
+      <td>Marvel</td>
+      <td>Kamar Taj</td>
+      <td>NaN</td>
+      <td>Strange Tales #110</td>
+      <td>1963-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Kamar-Taj</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Kama...</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Mystic Male</td>
+      <td>DC</td>
+      <td>Dr. Fate</td>
+      <td>NaN</td>
+      <td>More Fun Comics #55</td>
+      <td>1940-05-01</td>
+      <td>https://dc.fandom.com/wiki/Kent_Nelson_(New_Ea...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Kent_Nel...</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>Mystic Male</td>
+      <td>Marvel</td>
+      <td>Dr. Strange</td>
+      <td>NaN</td>
+      <td>Strange Tales #110</td>
+      <td>1963-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Stephen_Strange...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Step...</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>Mystical Metal</td>
+      <td>DC</td>
+      <td>Nth Metal</td>
+      <td>NaN</td>
+      <td>Flash Comics #1</td>
+      <td>1940-01-01</td>
+      <td>https://dc.fandom.com/wiki/Nth_Metal</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Nth_Meta...</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>Mystical Metal</td>
+      <td>Marvel</td>
+      <td>Uru</td>
+      <td>NaN</td>
+      <td>Journey Into Mystery #83</td>
+      <td>1962-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Uru</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Uru'...</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>Nazi Villain</td>
+      <td>DC</td>
+      <td>Per Degaton</td>
+      <td>NaN</td>
+      <td>All-Star Comics #35</td>
+      <td>1947-06-01</td>
+      <td>https://dc.fandom.com/wiki/Per_Degaton_(New_Ea...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Per_Dega...</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>Nazi Villain</td>
+      <td>Marvel</td>
+      <td>Red Skull</td>
+      <td>NaN</td>
+      <td>Captain America Comics #7</td>
+      <td>1941-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Johann_Shmidt_(...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Joha...</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>Origin</td>
+      <td>DC</td>
+      <td>National Allied Publication</td>
+      <td>NaN</td>
+      <td>More Fun Comics #1</td>
+      <td>1935-02-01</td>
+      <td>https://en.wikipedia.org/wiki/More_Fun_Comics</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://en.wikipedia.org/wiki/More_...</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>Origin</td>
+      <td>Marvel</td>
+      <td>Timely Comics</td>
+      <td>NaN</td>
+      <td>Marvel Comics #1</td>
+      <td>1939-10-01</td>
+      <td>https://en.wikipedia.org/wiki/Timely_Comics</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://en.wikipedia.org/wiki/Timel...</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>Paraplegic Professor</td>
+      <td>DC</td>
+      <td>The Chief</td>
+      <td>NaN</td>
+      <td>My Greatest Adventure #80</td>
+      <td>1963-06-01</td>
+      <td>https://dc.fandom.com/wiki/Niles_Caulder_(New_...</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Niles_Ca...</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>Paraplegic Professor</td>
+      <td>Marvel</td>
+      <td>Professor X</td>
+      <td>NaN</td>
+      <td>X-Men #1</td>
+      <td>1963-07-01</td>
+      <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>Pyro Villain</td>
+      <td>DC</td>
+      <td>Heatwave</td>
+      <td>NaN</td>
+      <td>The Flash #140</td>
+      <td>1963-11-01</td>
+      <td>https://dc.fandom.com/wiki/Mick_Rory_(New_Earth)</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Mick_Ror...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Pyro Villain</td>
+      <td>Marvel</td>
+      <td>Pyro</td>
+      <td>NaN</td>
+      <td>X-Men #141</td>
+      <td>1980-10-01</td>
+      <td>https://marvel.fandom.com/wiki/St._John_Allerd...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/St._...</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Rare Energy Metal</td>
+      <td>DC</td>
+      <td>Promethium</td>
+      <td>NaN</td>
+      <td>New Teen Titans #9</td>
+      <td>1981-07-01</td>
+      <td>https://dc.fandom.com/wiki/Promethium</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Promethi...</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Rare Energy Metal</td>
+      <td>Marvel</td>
+      <td>Vibranium</td>
+      <td>NaN</td>
+      <td>Daredevil #13</td>
+      <td>1965-12-01</td>
+      <td>https://marvel.fandom.com/wiki/Vibranium</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Vibr...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Sentient Planet</td>
+      <td>DC</td>
+      <td>Yggardis</td>
+      <td>NaN</td>
+      <td>Mystery in Space #60</td>
+      <td>1960-06-01</td>
+      <td>https://dc.fandom.com/wiki/Yggardis,_the_Livin...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Yggardis...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Sentient Planet</td>
+      <td>Marvel</td>
+      <td>Ego</td>
+      <td>NaN</td>
+      <td>Thor #132</td>
+      <td>1966-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Earth-616</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Eart...</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>Shapeshifting Female Villain</td>
+      <td>DC</td>
+      <td>Madame Rouge</td>
+      <td>NaN</td>
+      <td>Doom Patrol #86</td>
+      <td>1964-03-01</td>
+      <td>https://dc.fandom.com/wiki/Laura_De_Mille_(New...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Laura_De...</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>Shapeshifting Female Villain</td>
+      <td>Marvel</td>
+      <td>Mystique</td>
+      <td>NaN</td>
+      <td>Ms. Marvel #16</td>
+      <td>1978-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Raven_Darkh%C3%...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Rave...</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>Size Manipulation</td>
+      <td>DC</td>
+      <td>The Atom</td>
+      <td>NaN</td>
+      <td>Showcase #34</td>
+      <td>1961-10-01</td>
+      <td>https://dc.fandom.com/wiki/Raymond_Palmer</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Raymond_...</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>Size Manipulation</td>
+      <td>Marvel</td>
+      <td>Ant-Man</td>
+      <td>NaN</td>
+      <td>Strange Tales #75</td>
+      <td>1960-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Henry_Pym_(Eart...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Henr...</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>Stony Male</td>
+      <td>DC</td>
+      <td>Blok</td>
+      <td>NaN</td>
+      <td>Superboy and the Legion of Super-Heroes #253</td>
+      <td>1979-07-01</td>
+      <td>https://dc.fandom.com/wiki/Blok_(Pre-Zero_Hour)</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Blok_(Pr...</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>Stony Male</td>
+      <td>Marvel</td>
+      <td>Thing</td>
+      <td>NaN</td>
+      <td>Fantastic Four #1</td>
+      <td>1961-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Benjamin_Grimm_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Benj...</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>Stretchy</td>
+      <td>DC</td>
+      <td>Elongated Man</td>
+      <td>NaN</td>
+      <td>The Flash #112</td>
+      <td>1960-05-01</td>
+      <td>https://dc.fandom.com/wiki/Ralph_Dibny_(New_Ea...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Ralph_Di...</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>Stretchy</td>
+      <td>Marvel</td>
+      <td>Mr. Fantastic</td>
+      <td>NaN</td>
+      <td>Fantastic Four #1</td>
+      <td>1961-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Reed_Richards_(...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Reed...</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>Team</td>
+      <td>DC</td>
+      <td>Justice League</td>
+      <td>NaN</td>
+      <td>The Brave and the Bold #28</td>
+      <td>1960-03-01</td>
+      <td>https://dc.fandom.com/wiki/Justice_League</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Justice_...</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>Team</td>
+      <td>Marvel</td>
+      <td>The Avengers</td>
+      <td>NaN</td>
+      <td>Avengers #1</td>
+      <td>1963-09-01</td>
+      <td>https://marvel.fandom.com/wiki/Avengers_(Earth...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Aven...</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>Technological Conqueror</td>
+      <td>DC</td>
+      <td>Braniac</td>
+      <td>NaN</td>
+      <td>Action Comics #242</td>
+      <td>1958-07-01</td>
+      <td>https://dc.fandom.com/wiki/Vril_Dox_I_(New_Earth)</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Vril_Dox...</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>Technological Conqueror</td>
+      <td>Marvel</td>
+      <td>Ultron</td>
+      <td>NaN</td>
+      <td>Avengers #54</td>
+      <td>1968-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Ultron_(Earth-616)</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Ultr...</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>Technologically Advanced African Location</td>
+      <td>DC</td>
+      <td>Gorilla City</td>
+      <td>NaN</td>
+      <td>The Flash #106</td>
+      <td>1959-05-01</td>
+      <td>https://dc.fandom.com/wiki/Gorilla_City</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Gorilla_...</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>Technologically Advanced African Location</td>
+      <td>Marvel</td>
+      <td>Wakanda</td>
+      <td>NaN</td>
+      <td>Fantastic Four #52</td>
+      <td>1966-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Wakanda</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Waka...</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>Universal Corps</td>
+      <td>DC</td>
+      <td>Green Lantern Corps</td>
+      <td>NaN</td>
+      <td>Showcase # 22</td>
+      <td>1959-09-01</td>
+      <td>https://dc.fandom.com/wiki/Green_Lantern_Corps</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Green_La...</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>Universal Corps</td>
+      <td>Marvel</td>
+      <td>Nova Corps</td>
+      <td>NaN</td>
+      <td>Fantastic Four #205</td>
+      <td>1979-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Nova_Corps_(Ear...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nova...</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>Universal Warlord</td>
+      <td>DC</td>
+      <td>Darkseid</td>
+      <td>NaN</td>
+      <td>Superman's Pal, Jimmy Olsen #134</td>
+      <td>1970-12-01</td>
+      <td>https://dc.fandom.com/wiki/Darkseid</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Darkseid...</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>Universal Warlord</td>
+      <td>Marvel</td>
+      <td>Thanos</td>
+      <td>NaN</td>
+      <td>Iron Man #55</td>
+      <td>1972-10-01</td>
+      <td>https://marvel.fandom.com/wiki/Thanos_(Earth-616)</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Than...</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>Zeus</td>
+      <td>DC</td>
+      <td>Zeus</td>
+      <td>NaN</td>
+      <td>Superman #28</td>
+      <td>1944-05-01</td>
+      <td>https://dc.fandom.com/wiki/Zeus</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Zeus' st...</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>Zeus</td>
+      <td>Marvel</td>
+      <td>Zeus</td>
+      <td>NaN</td>
+      <td>Venus #5</td>
+      <td>1949-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Zeus_Panhelleni...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Zeus...</td>
     </tr>
   </tbody>
 </table>
@@ -15113,6 +15398,8 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dates</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1">#For each pair, get the earliest.  Order entire dataframe by those dates.</span>
 <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()):</span>
     <span class="n">first</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">d</span><span class="p">][</span><span class="s1">&#39;Date&#39;</span><span class="p">])</span>
     <span class="n">dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">first</span><span class="p">)</span>
@@ -15157,12 +15444,13 @@ a.anchor-link {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Character</th>
+      <th>Description</th>
       <th>Group</th>
+      <th>Character</th>
+      <th>Column2</th>
       <th>First Appearance</th>
       <th>Date</th>
       <th>Reference</th>
-      <th>Description</th>
       <th>Original?</th>
       <th>Rollover</th>
       <th>First</th>
@@ -15170,793 +15458,1093 @@ a.anchor-link {
   </thead>
   <tbody>
     <tr>
-      <th>6</th>
-      <td>Aquaman</td>
+      <th>54</th>
+      <td>Origin</td>
       <td>DC</td>
+      <td>National Allied Publication</td>
+      <td>NaN</td>
+      <td>More Fun Comics #1</td>
+      <td>1935-02-01</td>
+      <td>https://en.wikipedia.org/wiki/More_Fun_Comics</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://en.wikipedia.org/wiki/More_...</td>
+      <td>1935-02-01</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>Origin</td>
+      <td>Marvel</td>
+      <td>Timely Comics</td>
+      <td>NaN</td>
+      <td>Marvel Comics #1</td>
+      <td>1939-10-01</td>
+      <td>https://en.wikipedia.org/wiki/Timely_Comics</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://en.wikipedia.org/wiki/Timel...</td>
+      <td>1935-02-01</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Lord of the Sea</td>
+      <td>DC</td>
+      <td>Aquaman</td>
+      <td>NaN</td>
       <td>More Fun Comics #73</td>
       <td>1941-11-01</td>
       <td>https://dc.fandom.com/wiki/Orin_(New_Earth)</td>
-      <td>Lord of the Sea</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Orin_(Ne...</td>
       <td>1939-04-01</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>Namor</td>
+      <th>33</th>
+      <td>Lord of the Sea</td>
       <td>Marvel</td>
+      <td>Namor</td>
+      <td>NaN</td>
       <td>Motion Picture Funnies Weekly Vol 1 1</td>
       <td>1939-04-01</td>
       <td>https://marvel.fandom.com/wiki/Namor_McKenzie_...</td>
-      <td>Lord of the Sea</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Namo...</td>
       <td>1939-04-01</td>
     </tr>
     <tr>
-      <th>38</th>
-      <td>Quicksilver</td>
-      <td>Marvel</td>
-      <td>X-Men #4</td>
-      <td>1964-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Pietro_Maximoff...</td>
+      <th>14</th>
       <td>Fast Runner</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Piet...</td>
-      <td>1940-01-01</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>Flash</td>
       <td>DC</td>
+      <td>Flash</td>
+      <td>NaN</td>
       <td>\tFlash Comics #1</td>
       <td>1940-01-01</td>
       <td>https://dc.fandom.com/wiki/Jay_Garrick</td>
-      <td>Fast Runner</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Jay_Garr...</td>
       <td>1940-01-01</td>
     </tr>
     <tr>
-      <th>18</th>
-      <td>Black Cat</td>
+      <th>15</th>
+      <td>Fast Runner</td>
       <td>Marvel</td>
-      <td>Amazing Spider-Man #194</td>
-      <td>1979-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Felicia_Hardy_(...</td>
-      <td>Cat Burglar</td>
+      <td>Quicksilver</td>
+      <td>NaN</td>
+      <td>X-Men #4</td>
+      <td>1964-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Pietro_Maximoff...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Feli...</td>
-      <td>1940-03-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Piet...</td>
+      <td>1940-01-01</td>
     </tr>
     <tr>
-      <th>19</th>
-      <td>Catwoman</td>
+      <th>50</th>
+      <td>Mystical Metal</td>
       <td>DC</td>
+      <td>Nth Metal</td>
+      <td>NaN</td>
+      <td>Flash Comics #1</td>
+      <td>1940-01-01</td>
+      <td>https://dc.fandom.com/wiki/Nth_Metal</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Nth_Meta...</td>
+      <td>1940-01-01</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>Mystical Metal</td>
+      <td>Marvel</td>
+      <td>Uru</td>
+      <td>NaN</td>
+      <td>Journey Into Mystery #83</td>
+      <td>1962-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Uru</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Uru'...</td>
+      <td>1940-01-01</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Cat Burglar</td>
+      <td>DC</td>
+      <td>Catwoman</td>
+      <td>NaN</td>
       <td>Batman #1</td>
       <td>1940-03-01</td>
       <td>https://dc.fandom.com/wiki/Selina_Kyle_(Earth-...</td>
-      <td>Cat Burglar</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Selina_K...</td>
       <td>1940-03-01</td>
     </tr>
     <tr>
-      <th>10</th>
-      <td>Dr. Strange</td>
+      <th>11</th>
+      <td>Cat Burglar</td>
       <td>Marvel</td>
-      <td>Strange Tales #110</td>
-      <td>1963-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Stephen_Strange...</td>
-      <td>Mystic Male</td>
+      <td>Black Cat</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #194</td>
+      <td>1979-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Felicia_Hardy_(...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Step...</td>
-      <td>1940-05-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Feli...</td>
+      <td>1940-03-01</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>Dr. Fate</td>
+      <th>48</th>
+      <td>Mystic Male</td>
       <td>DC</td>
+      <td>Dr. Fate</td>
+      <td>NaN</td>
       <td>More Fun Comics #55</td>
       <td>1940-05-01</td>
       <td>https://dc.fandom.com/wiki/Kent_Nelson_(New_Ea...</td>
-      <td>Mystic Male</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Kent_Nel...</td>
       <td>1940-05-01</td>
     </tr>
     <tr>
-      <th>40</th>
-      <td>Sandman</td>
+      <th>49</th>
+      <td>Mystic Male</td>
       <td>Marvel</td>
-      <td>The Amazing Spider-Man #4</td>
-      <td>1963-09-01</td>
-      <td>https://marvel.fandom.com/wiki/William_Baker_(...</td>
-      <td>Malleable Male</td>
+      <td>Dr. Strange</td>
+      <td>NaN</td>
+      <td>Strange Tales #110</td>
+      <td>1963-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Stephen_Strange...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Will...</td>
-      <td>1940-06-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Step...</td>
+      <td>1940-05-01</td>
     </tr>
     <tr>
-      <th>41</th>
-      <td>Clayface</td>
+      <th>34</th>
+      <td>Malleable Male</td>
       <td>DC</td>
+      <td>Clayface</td>
+      <td>NaN</td>
       <td>Detective Comics #40</td>
       <td>1940-06-01</td>
       <td>https://dc.fandom.com/wiki/Clayface</td>
-      <td>Malleable Male</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Clayface...</td>
       <td>1940-06-01</td>
     </tr>
     <tr>
-      <th>30</th>
-      <td>Hercules</td>
+      <th>35</th>
+      <td>Malleable Male</td>
       <td>Marvel</td>
-      <td>Young Allies #16</td>
-      <td>1945-05-01</td>
-      <td>https://marvel.fandom.com/wiki/Hercules_Panhel...</td>
-      <td>Hercules</td>
+      <td>Sandman</td>
+      <td>NaN</td>
+      <td>The Amazing Spider-Man #4</td>
+      <td>1963-09-01</td>
+      <td>https://marvel.fandom.com/wiki/William_Baker_(...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Herc...</td>
-      <td>1942-01-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Will...</td>
+      <td>1940-06-01</td>
     </tr>
     <tr>
-      <th>31</th>
+      <th>52</th>
+      <td>Nazi Villain</td>
+      <td>DC</td>
+      <td>Per Degaton</td>
+      <td>NaN</td>
+      <td>All-Star Comics #35</td>
+      <td>1947-06-01</td>
+      <td>https://dc.fandom.com/wiki/Per_Degaton_(New_Ea...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Per_Dega...</td>
+      <td>1941-08-01</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>Nazi Villain</td>
+      <td>Marvel</td>
+      <td>Red Skull</td>
+      <td>NaN</td>
+      <td>Captain America Comics #7</td>
+      <td>1941-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Johann_Shmidt_(...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Joha...</td>
+      <td>1941-08-01</td>
+    </tr>
+    <tr>
+      <th>20</th>
       <td>Hercules</td>
       <td>DC</td>
+      <td>Hercules</td>
+      <td>NaN</td>
       <td>All-Star Comics #8</td>
       <td>1942-01-01</td>
       <td>https://dc.fandom.com/wiki/Hercules</td>
-      <td>Hercules</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Hercules...</td>
       <td>1942-01-01</td>
     </tr>
     <tr>
-      <th>48</th>
-      <td>Tigra</td>
+      <th>21</th>
+      <td>Hercules</td>
       <td>Marvel</td>
-      <td>The Cat #1</td>
-      <td>1972-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Greer_Nelson_(E...</td>
-      <td>Feline</td>
+      <td>Hercules</td>
+      <td>NaN</td>
+      <td>Young Allies #16</td>
+      <td>1945-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Hercules_Panhel...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Gree...</td>
-      <td>1943-09-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Herc...</td>
+      <td>1942-01-01</td>
     </tr>
     <tr>
-      <th>49</th>
-      <td>Cheetah</td>
+      <th>16</th>
+      <td>Feline</td>
       <td>DC</td>
+      <td>Cheetah</td>
+      <td>NaN</td>
       <td>Wonder Woman #6</td>
       <td>1943-09-01</td>
       <td>https://dc.fandom.com/wiki/Cheetah</td>
-      <td>Feline</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Cheetah'...</td>
       <td>1943-09-01</td>
     </tr>
     <tr>
-      <th>32</th>
-      <td>Zeus</td>
+      <th>17</th>
+      <td>Feline</td>
       <td>Marvel</td>
-      <td>Venus #5</td>
-      <td>1949-06-01</td>
-      <td>https://marvel.fandom.com/wiki/Zeus_Panhelleni...</td>
-      <td>Zeus</td>
+      <td>Tigra</td>
+      <td>NaN</td>
+      <td>The Cat #1</td>
+      <td>1972-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Greer_Nelson_(E...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Zeus...</td>
-      <td>1944-05-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Gree...</td>
+      <td>1943-09-01</td>
     </tr>
     <tr>
-      <th>33</th>
+      <th>82</th>
       <td>Zeus</td>
       <td>DC</td>
+      <td>Zeus</td>
+      <td>NaN</td>
       <td>Superman #28</td>
       <td>1944-05-01</td>
       <td>https://dc.fandom.com/wiki/Zeus</td>
-      <td>Zeus</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Zeus' st...</td>
       <td>1944-05-01</td>
     </tr>
     <tr>
-      <th>14</th>
-      <td>Hawkeye</td>
+      <th>83</th>
+      <td>Zeus</td>
       <td>Marvel</td>
-      <td>Tales of Suspense #57</td>
-      <td>1964-06-01</td>
-      <td>https://marvel.fandom.com/wiki/Clinton_Barton_...</td>
-      <td>Archer</td>
+      <td>Zeus</td>
+      <td>NaN</td>
+      <td>Venus #5</td>
+      <td>1949-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Zeus_Panhelleni...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Clin...</td>
-      <td>1958-07-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Zeus...</td>
+      <td>1944-05-01</td>
     </tr>
     <tr>
-      <th>15</th>
-      <td>Green Arrow</td>
+      <th>2</th>
+      <td>Archer</td>
       <td>DC</td>
+      <td>Green Arrow</td>
+      <td>NaN</td>
       <td>Adventure Comics #250</td>
       <td>1958-07-01</td>
       <td>https://dc.fandom.com/wiki/Oliver_Queen_(New_E...</td>
-      <td>Archer</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Oliver_Q...</td>
       <td>1958-07-01</td>
     </tr>
     <tr>
-      <th>24</th>
-      <td>Ultron</td>
+      <th>3</th>
+      <td>Archer</td>
       <td>Marvel</td>
-      <td>Avengers #54</td>
-      <td>1968-05-01</td>
-      <td>https://marvel.fandom.com/wiki/Ultron_(Earth-616)</td>
-      <td>Technological Conqueror</td>
+      <td>Hawkeye</td>
+      <td>NaN</td>
+      <td>Tales of Suspense #57</td>
+      <td>1964-06-01</td>
+      <td>https://marvel.fandom.com/wiki/Clinton_Barton_...</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Ultr...</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Clin...</td>
       <td>1958-07-01</td>
     </tr>
     <tr>
-      <th>25</th>
-      <td>Braniac</td>
+      <th>74</th>
+      <td>Technological Conqueror</td>
       <td>DC</td>
+      <td>Braniac</td>
+      <td>NaN</td>
       <td>Action Comics #242</td>
       <td>1958-07-01</td>
       <td>https://dc.fandom.com/wiki/Vril_Dox_I_(New_Earth)</td>
-      <td>Technological Conqueror</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Vril_Dox...</td>
       <td>1958-07-01</td>
     </tr>
     <tr>
-      <th>60</th>
-      <td>Wakanda</td>
+      <th>75</th>
+      <td>Technological Conqueror</td>
       <td>Marvel</td>
-      <td>Fantastic Four #52</td>
-      <td>1966-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Wakanda</td>
-      <td>Technologically Advanced African Location</td>
+      <td>Ultron</td>
+      <td>NaN</td>
+      <td>Avengers #54</td>
+      <td>1968-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Ultron_(Earth-616)</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Waka...</td>
-      <td>1959-05-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Ultr...</td>
+      <td>1958-07-01</td>
     </tr>
     <tr>
-      <th>61</th>
-      <td>Gorilla City</td>
+      <th>76</th>
+      <td>Technologically Advanced African Location</td>
       <td>DC</td>
+      <td>Gorilla City</td>
+      <td>NaN</td>
       <td>The Flash #106</td>
       <td>1959-05-01</td>
       <td>https://dc.fandom.com/wiki/Gorilla_City</td>
-      <td>Technologically Advanced African Location</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Gorilla_...</td>
       <td>1959-05-01</td>
     </tr>
     <tr>
-      <th>26</th>
-      <td>Nova Corps</td>
+      <th>77</th>
+      <td>Technologically Advanced African Location</td>
       <td>Marvel</td>
-      <td>Fantastic Four #205</td>
-      <td>1979-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Nova_Corps_(Ear...</td>
-      <td>Universal Corps</td>
+      <td>Wakanda</td>
+      <td>NaN</td>
+      <td>Fantastic Four #52</td>
+      <td>1966-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Wakanda</td>
       <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nova...</td>
-      <td>1959-09-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Waka...</td>
+      <td>1959-05-01</td>
     </tr>
     <tr>
-      <th>27</th>
-      <td>Green Lantern Corps</td>
+      <th>78</th>
+      <td>Universal Corps</td>
       <td>DC</td>
+      <td>Green Lantern Corps</td>
+      <td>NaN</td>
       <td>Showcase # 22</td>
       <td>1959-09-01</td>
       <td>https://dc.fandom.com/wiki/Green_Lantern_Corps</td>
-      <td>Universal Corps</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Green_La...</td>
       <td>1959-09-01</td>
     </tr>
     <tr>
-      <th>34</th>
-      <td>Ant-Man</td>
+      <th>79</th>
+      <td>Universal Corps</td>
       <td>Marvel</td>
-      <td>Strange Tales #75</td>
-      <td>1960-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Henry_Pym_(Eart...</td>
-      <td>Size Manipulation</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Henr...</td>
-      <td>1960-01-01</td>
+      <td>Nova Corps</td>
+      <td>NaN</td>
+      <td>Fantastic Four #205</td>
+      <td>1979-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Nova_Corps_(Ear...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nova...</td>
+      <td>1959-09-01</td>
     </tr>
     <tr>
-      <th>35</th>
-      <td>The Atom</td>
+      <th>66</th>
+      <td>Size Manipulation</td>
       <td>DC</td>
+      <td>The Atom</td>
+      <td>NaN</td>
       <td>Showcase #34</td>
       <td>1961-10-01</td>
       <td>https://dc.fandom.com/wiki/Raymond_Palmer</td>
-      <td>Size Manipulation</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Raymond_...</td>
       <td>1960-01-01</td>
     </tr>
     <tr>
-      <th>44</th>
-      <td>The Avengers</td>
+      <th>67</th>
+      <td>Size Manipulation</td>
       <td>Marvel</td>
-      <td>Avengers #1</td>
-      <td>1963-09-01</td>
-      <td>https://marvel.fandom.com/wiki/Avengers_(Earth...</td>
-      <td>Team</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Aven...</td>
-      <td>1960-03-01</td>
+      <td>Ant-Man</td>
+      <td>NaN</td>
+      <td>Strange Tales #75</td>
+      <td>1960-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Henry_Pym_(Eart...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Henr...</td>
+      <td>1960-01-01</td>
     </tr>
     <tr>
-      <th>45</th>
-      <td>Justice League</td>
+      <th>72</th>
+      <td>Team</td>
       <td>DC</td>
+      <td>Justice League</td>
+      <td>NaN</td>
       <td>The Brave and the Bold #28</td>
       <td>1960-03-01</td>
       <td>https://dc.fandom.com/wiki/Justice_League</td>
-      <td>Team</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Justice_...</td>
       <td>1960-03-01</td>
     </tr>
     <tr>
-      <th>16</th>
-      <td>Elongated Man</td>
+      <th>73</th>
+      <td>Team</td>
+      <td>Marvel</td>
+      <td>The Avengers</td>
+      <td>NaN</td>
+      <td>Avengers #1</td>
+      <td>1963-09-01</td>
+      <td>https://marvel.fandom.com/wiki/Avengers_(Earth...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Aven...</td>
+      <td>1960-03-01</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>Stretchy</td>
       <td>DC</td>
+      <td>Elongated Man</td>
+      <td>NaN</td>
       <td>The Flash #112</td>
       <td>1960-05-01</td>
       <td>https://dc.fandom.com/wiki/Ralph_Dibny_(New_Ea...</td>
-      <td>Stretchy</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Ralph_Di...</td>
       <td>1960-05-01</td>
     </tr>
     <tr>
-      <th>17</th>
-      <td>Mr. Fantastic</td>
+      <th>71</th>
+      <td>Stretchy</td>
       <td>Marvel</td>
+      <td>Mr. Fantastic</td>
+      <td>NaN</td>
       <td>Fantastic Four #1</td>
       <td>1961-08-01</td>
       <td>https://marvel.fandom.com/wiki/Reed_Richards_(...</td>
-      <td>Stretchy</td>
       <td>2</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Reed...</td>
       <td>1960-05-01</td>
     </tr>
     <tr>
-      <th>58</th>
-      <td>Yggardis</td>
+      <th>62</th>
+      <td>Sentient Planet</td>
       <td>DC</td>
+      <td>Yggardis</td>
+      <td>NaN</td>
       <td>Mystery in Space #60</td>
       <td>1960-06-01</td>
       <td>https://dc.fandom.com/wiki/Yggardis,_the_Livin...</td>
-      <td>Sentient Planet</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Yggardis...</td>
       <td>1960-06-01</td>
     </tr>
     <tr>
-      <th>59</th>
-      <td>Ego</td>
+      <th>63</th>
+      <td>Sentient Planet</td>
       <td>Marvel</td>
+      <td>Ego</td>
+      <td>NaN</td>
       <td>Thor #132</td>
       <td>1966-06-01</td>
       <td>https://marvel.fandom.com/wiki/Earth-616</td>
-      <td>Sentient Planet</td>
       <td>2</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Eart...</td>
       <td>1960-06-01</td>
     </tr>
     <tr>
-      <th>50</th>
-      <td>Boomerang</td>
-      <td>Marvel</td>
-      <td>Tales to Astonish #81</td>
-      <td>1966-04-01</td>
-      <td>https://marvel.fandom.com/wiki/Frederick_Myers...</td>
-      <td>Boomerang Guy</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Fred...</td>
-      <td>1960-12-01</td>
-    </tr>
-    <tr>
-      <th>51</th>
-      <td>Captain Boomerang</td>
+      <th>6</th>
+      <td>Boomerang Male</td>
       <td>DC</td>
+      <td>Captain Boomerang</td>
+      <td>NaN</td>
       <td>The Flash #117</td>
       <td>1960-12-01</td>
       <td>https://dc.fandom.com/wiki/Captain_Boomerang</td>
-      <td>Boomerang Guy</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Captain_...</td>
       <td>1960-12-01</td>
     </tr>
     <tr>
-      <th>62</th>
-      <td>Nanda Parbat</td>
+      <th>7</th>
+      <td>Boomerang Male</td>
+      <td>Marvel</td>
+      <td>Boomerang</td>
+      <td>NaN</td>
+      <td>Tales to Astonish #81</td>
+      <td>1966-04-01</td>
+      <td>https://marvel.fandom.com/wiki/Frederick_Myers...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Fred...</td>
+      <td>1960-12-01</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Flaming Body</td>
       <td>DC</td>
+      <td>Fire</td>
+      <td>NaN</td>
+      <td>DC Comics Presents #46</td>
+      <td>1982-06-01</td>
+      <td>https://dc.fandom.com/wiki/Beatriz_da_Costa_(N...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Beatriz_...</td>
+      <td>1961-08-01</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Flaming Body</td>
+      <td>Marvel</td>
+      <td>Human Torch</td>
+      <td>NaN</td>
+      <td>Fantastic Four #1</td>
+      <td>1961-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Jonathan_Storm_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Jona...</td>
+      <td>1961-08-01</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>Stony Male</td>
+      <td>DC</td>
+      <td>Blok</td>
+      <td>NaN</td>
+      <td>Superboy and the Legion of Super-Heroes #253</td>
+      <td>1979-07-01</td>
+      <td>https://dc.fandom.com/wiki/Blok_(Pre-Zero_Hour)</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Blok_(Pr...</td>
+      <td>1961-08-01</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>Stony Male</td>
+      <td>Marvel</td>
+      <td>Thing</td>
+      <td>NaN</td>
+      <td>Fantastic Four #1</td>
+      <td>1961-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Benjamin_Grimm_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Benj...</td>
+      <td>1961-08-01</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Mystic Himalayan Location</td>
+      <td>DC</td>
+      <td>Nanda Parbat</td>
+      <td>NaN</td>
       <td>Strange Adventures #216</td>
       <td>1969-02-01</td>
       <td>https://dc.fandom.com/wiki/Nanda_Parbat</td>
-      <td>Mystic Himalayan Location</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Nanda_Pa...</td>
       <td>1963-04-01</td>
     </tr>
     <tr>
-      <th>63</th>
-      <td>Kamar Taj</td>
+      <th>47</th>
+      <td>Mystic Himalayan Location</td>
       <td>Marvel</td>
+      <td>Kamar Taj</td>
+      <td>NaN</td>
       <td>Strange Tales #110</td>
       <td>1963-04-01</td>
       <td>https://marvel.fandom.com/wiki/Kamar-Taj</td>
-      <td>Mystic Himalayan Location</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Kama...</td>
       <td>1963-04-01</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Magneto</td>
-      <td>Marvel</td>
-      <td>X-Men #1</td>
-      <td>1963-07-01</td>
-      <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
+      <th>40</th>
       <td>Master of Magneticism</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
-      <td>1963-06-01</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Dr. Polaris</td>
       <td>DC</td>
+      <td>Dr. Polaris</td>
+      <td>NaN</td>
       <td>Green Lantern Vol 2 #21</td>
       <td>1963-06-01</td>
       <td>https://dc.fandom.com/wiki/Neal_Emerson_(New_E...</td>
-      <td>Master of Magneticism</td>
       <td>0</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Neal_Eme...</td>
       <td>1963-06-01</td>
     </tr>
     <tr>
-      <th>22</th>
-      <td>Professor X</td>
+      <th>41</th>
+      <td>Master of Magneticism</td>
       <td>Marvel</td>
+      <td>Magneto</td>
+      <td>NaN</td>
       <td>X-Men #1</td>
       <td>1963-07-01</td>
       <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
-      <td>Paraplegic Professor</td>
       <td>0</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
       <td>1963-06-01</td>
     </tr>
     <tr>
-      <th>23</th>
-      <td>Niles Caulder</td>
+      <th>56</th>
+      <td>Paraplegic Professor</td>
       <td>DC</td>
+      <td>The Chief</td>
+      <td>NaN</td>
       <td>My Greatest Adventure #80</td>
       <td>1963-06-01</td>
       <td>https://dc.fandom.com/wiki/Niles_Caulder_(New_...</td>
-      <td>Paraplegic Professor</td>
       <td>0</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Niles_Ca...</td>
       <td>1963-06-01</td>
     </tr>
     <tr>
-      <th>28</th>
-      <td>Electro</td>
+      <th>57</th>
+      <td>Paraplegic Professor</td>
       <td>Marvel</td>
-      <td>Amazing Spider-Man #9</td>
-      <td>1963-11-01</td>
-      <td>https://marvel.fandom.com/wiki/Maxwell_Dillon_...</td>
-      <td>Lightnining</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Maxw...</td>
-      <td>1963-11-01</td>
+      <td>Professor X</td>
+      <td>NaN</td>
+      <td>X-Men #1</td>
+      <td>1963-07-01</td>
+      <td>https://marvel.fandom.com/wiki/Max_Eisenhardt_...</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Max_...</td>
+      <td>1963-06-01</td>
     </tr>
     <tr>
-      <th>29</th>
-      <td>Black Lightning</td>
+      <th>30</th>
+      <td>Lightnining</td>
       <td>DC</td>
+      <td>Black Lightning</td>
+      <td>NaN</td>
       <td>Black Lightning #1</td>
       <td>1977-04-01</td>
       <td>https://dc.fandom.com/wiki/Black_Lightning</td>
-      <td>Lightnining</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Black_Li...</td>
       <td>1963-11-01</td>
     </tr>
     <tr>
-      <th>46</th>
-      <td>Black Widow</td>
+      <th>31</th>
+      <td>Lightnining</td>
       <td>Marvel</td>
-      <td>Tales of Suspense #52</td>
-      <td>1964-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Natalia_Romanov...</td>
-      <td>Blond &amp; Leather Martial Artist</td>
+      <td>Electro</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #9</td>
+      <td>1963-11-01</td>
+      <td>https://marvel.fandom.com/wiki/Maxwell_Dillon_...</td>
       <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nata...</td>
-      <td>1964-01-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Maxw...</td>
+      <td>1963-11-01</td>
     </tr>
     <tr>
-      <th>47</th>
-      <td>Black Canary</td>
+      <th>58</th>
+      <td>Pyro Villain</td>
       <td>DC</td>
+      <td>Heatwave</td>
+      <td>NaN</td>
+      <td>The Flash #140</td>
+      <td>1963-11-01</td>
+      <td>https://dc.fandom.com/wiki/Mick_Rory_(New_Earth)</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Mick_Ror...</td>
+      <td>1963-11-01</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Pyro Villain</td>
+      <td>Marvel</td>
+      <td>Pyro</td>
+      <td>NaN</td>
+      <td>X-Men #141</td>
+      <td>1980-10-01</td>
+      <td>https://marvel.fandom.com/wiki/St._John_Allerd...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/St._...</td>
+      <td>1963-11-01</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Blond &amp; Leather Martial Artist</td>
+      <td>DC</td>
+      <td>Black Canary</td>
+      <td>NaN</td>
       <td>Justice League of America #75</td>
       <td>1969-11-01</td>
       <td>https://dc.fandom.com/wiki/Black_Canary</td>
-      <td>Blond &amp; Leather Martial Artist</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Black_Ca...</td>
       <td>1964-01-01</td>
     </tr>
     <tr>
-      <th>12</th>
-      <td>Scarlet Witch</td>
+      <th>5</th>
+      <td>Blond &amp; Leather Martial Artist</td>
       <td>Marvel</td>
-      <td>X-Men #4</td>
+      <td>Black Widow</td>
+      <td>NaN</td>
+      <td>Tales of Suspense #52</td>
       <td>1964-01-01</td>
-      <td>https://marvel.fandom.com/wiki/Wanda_Maximoff_...</td>
-      <td>Mystic Female</td>
+      <td>https://marvel.fandom.com/wiki/Natalia_Romanov...</td>
       <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wand...</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Nata...</td>
       <td>1964-01-01</td>
     </tr>
     <tr>
-      <th>13</th>
-      <td>Zatanna</td>
+      <th>44</th>
+      <td>Mystic Female</td>
       <td>DC</td>
+      <td>Zatanna</td>
+      <td>NaN</td>
       <td>Hawkman #4</td>
       <td>1964-11-01</td>
       <td>https://dc.fandom.com/wiki/Zatanna_Zatara_(New...</td>
-      <td>Mystic Female</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Zatanna_...</td>
       <td>1964-01-01</td>
     </tr>
     <tr>
-      <th>54</th>
-      <td>Promethium</td>
+      <th>45</th>
+      <td>Mystic Female</td>
+      <td>Marvel</td>
+      <td>Scarlet Witch</td>
+      <td>NaN</td>
+      <td>X-Men #4</td>
+      <td>1964-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Wanda_Maximoff_...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wand...</td>
+      <td>1964-01-01</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>Shapeshifting Female Villain</td>
       <td>DC</td>
+      <td>Madame Rouge</td>
+      <td>NaN</td>
+      <td>Doom Patrol #86</td>
+      <td>1964-03-01</td>
+      <td>https://dc.fandom.com/wiki/Laura_De_Mille_(New...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Laura_De...</td>
+      <td>1964-03-01</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>Shapeshifting Female Villain</td>
+      <td>Marvel</td>
+      <td>Mystique</td>
+      <td>NaN</td>
+      <td>Ms. Marvel #16</td>
+      <td>1978-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Raven_Darkh%C3%...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Rave...</td>
+      <td>1964-03-01</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Hunter/Tracker Villain</td>
+      <td>DC</td>
+      <td>Hunter</td>
+      <td>NaN</td>
+      <td>Superboy #199</td>
+      <td>1973-11-01</td>
+      <td>https://dc.fandom.com/wiki/Adam_Orion_(Pre-Zer...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/Adam_Ori...</td>
+      <td>1964-05-01</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Hunter/Tracker Villain</td>
+      <td>Marvel</td>
+      <td>Kraven the Hunter</td>
+      <td>NaN</td>
+      <td>Amazing Spider-Man #15</td>
+      <td>1964-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Sergei_Kravinof...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Serg...</td>
+      <td>1964-05-01</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Material Mimicry Villain</td>
+      <td>DC</td>
+      <td>Amazing-Man</td>
+      <td>NaN</td>
+      <td>All-Star Squadron #23</td>
+      <td>1983-07-01</td>
+      <td>https://dc.fandom.com/wiki/William_Everett,_Sr...</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://dc.fandom.com/wiki/William_...</td>
+      <td>1965-01-01</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Material Mimicry Villain</td>
+      <td>Marvel</td>
+      <td>Absorbing Man</td>
+      <td>NaN</td>
+      <td>Journey Into Mystery #114</td>
+      <td>1965-01-01</td>
+      <td>https://marvel.fandom.com/wiki/Carl_Creel_(Ear...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Carl...</td>
+      <td>1965-01-01</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Rare Energy Metal</td>
+      <td>DC</td>
+      <td>Promethium</td>
+      <td>NaN</td>
       <td>New Teen Titans #9</td>
       <td>1981-07-01</td>
       <td>https://dc.fandom.com/wiki/Promethium</td>
-      <td>Rare Energy Metal</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Promethi...</td>
       <td>1965-12-01</td>
     </tr>
     <tr>
-      <th>55</th>
-      <td>Vibranium</td>
+      <th>61</th>
+      <td>Rare Energy Metal</td>
       <td>Marvel</td>
+      <td>Vibranium</td>
+      <td>NaN</td>
       <td>Daredevil #13</td>
       <td>1965-12-01</td>
       <td>https://marvel.fandom.com/wiki/Vibranium</td>
-      <td>Rare Energy Metal</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Vibr...</td>
       <td>1965-12-01</td>
     </tr>
     <tr>
-      <th>52</th>
-      <td>Red Lion</td>
+      <th>0</th>
+      <td>African Fighter King</td>
       <td>DC</td>
+      <td>Red Lion</td>
+      <td>NaN</td>
       <td>Deathstroke: Rebirth #1</td>
       <td>2016-10-01</td>
       <td>https://dc.fandom.com/wiki/Matthew_Bland_(Prim...</td>
-      <td>African Fighter King</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Matthew_...</td>
       <td>1966-04-01</td>
     </tr>
     <tr>
-      <th>53</th>
-      <td>Black Panther</td>
+      <th>1</th>
+      <td>African Fighter King</td>
       <td>Marvel</td>
+      <td>Black Panther</td>
+      <td>NaN</td>
       <td>Fantastic Four #52</td>
       <td>1966-04-01</td>
       <td>https://marvel.fandom.com/wiki/T%27Challa_(Ear...</td>
-      <td>African Fighter King</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/T%27...</td>
       <td>1966-04-01</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>Tobias Whale</td>
+      <th>28</th>
+      <td>Large Crime Boss</td>
       <td>DC</td>
+      <td>Tobias Whale</td>
+      <td>NaN</td>
       <td>Black Lightning #1</td>
       <td>1977-04-01</td>
       <td>https://dc.fandom.com/wiki/Tobias_Whale</td>
-      <td>Large Crime Boss</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Tobias_W...</td>
       <td>1967-04-01</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>Kingpin</td>
+      <th>29</th>
+      <td>Large Crime Boss</td>
       <td>Marvel</td>
+      <td>Kingpin</td>
+      <td>NaN</td>
       <td>Amazing Spider-Man #50</td>
       <td>1967-04-01</td>
       <td>https://marvel.fandom.com/wiki/Wilson_Fisk_(Ea...</td>
-      <td>Large Crime Boss</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wils...</td>
       <td>1967-04-01</td>
     </tr>
     <tr>
-      <th>20</th>
-      <td>Vision</td>
-      <td>Marvel</td>
-      <td>Avengers #57</td>
-      <td>1968-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Vision_(Earth-616)</td>
+      <th>8</th>
       <td>Caped Android</td>
-      <td>0</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Visi...</td>
-      <td>1968-08-01</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>Red Tornado</td>
       <td>DC</td>
+      <td>Red Tornado</td>
+      <td>NaN</td>
       <td>Justice League of America #64</td>
       <td>1968-08-01</td>
       <td>https://dc.fandom.com/wiki/Red_Tornado_(New_Ea...</td>
-      <td>Caped Android</td>
       <td>0</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Red_Torn...</td>
       <td>1968-08-01</td>
     </tr>
     <tr>
-      <th>0</th>
-      <td>Thanos</td>
+      <th>9</th>
+      <td>Caped Android</td>
       <td>Marvel</td>
-      <td>Iron Man #55</td>
-      <td>1972-10-01</td>
-      <td>https://marvel.fandom.com/wiki/Thanos_(Earth-616)</td>
-      <td>Universal Warlord</td>
-      <td>2</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Than...</td>
-      <td>1970-12-01</td>
+      <td>Vision</td>
+      <td>NaN</td>
+      <td>Avengers #57</td>
+      <td>1968-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Vision_(Earth-616)</td>
+      <td>0</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Visi...</td>
+      <td>1968-08-01</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>Darkseid</td>
+      <th>80</th>
+      <td>Universal Warlord</td>
       <td>DC</td>
+      <td>Darkseid</td>
+      <td>NaN</td>
       <td>Superman's Pal, Jimmy Olsen #134</td>
       <td>1970-12-01</td>
       <td>https://dc.fandom.com/wiki/Darkseid</td>
-      <td>Universal Warlord</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Darkseid...</td>
       <td>1970-12-01</td>
     </tr>
     <tr>
-      <th>42</th>
-      <td>Ghost Rider</td>
+      <th>81</th>
+      <td>Universal Warlord</td>
       <td>Marvel</td>
-      <td>Marvel Spotlight #5</td>
-      <td>1972-08-01</td>
-      <td>https://marvel.fandom.com/wiki/Johnathon_Blaze...</td>
-      <td>Human/Demon</td>
-      <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/John...</td>
-      <td>1972-08-01</td>
+      <td>Thanos</td>
+      <td>NaN</td>
+      <td>Iron Man #55</td>
+      <td>1972-10-01</td>
+      <td>https://marvel.fandom.com/wiki/Thanos_(Earth-616)</td>
+      <td>2</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Than...</td>
+      <td>1970-12-01</td>
     </tr>
     <tr>
-      <th>43</th>
-      <td>Etrigan</td>
+      <th>24</th>
+      <td>Human/Demon</td>
       <td>DC</td>
+      <td>Etrigan</td>
+      <td>NaN</td>
       <td>The Deomn #1</td>
       <td>1972-09-01</td>
       <td>https://dc.fandom.com/wiki/Etrigan</td>
-      <td>Human/Demon</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Etrigan'...</td>
       <td>1972-08-01</td>
     </tr>
     <tr>
-      <th>36</th>
-      <td>Deathlock</td>
+      <th>25</th>
+      <td>Human/Demon</td>
       <td>Marvel</td>
-      <td>Astonishing Tales #25</td>
-      <td>1974-05-01</td>
-      <td>https://marvel.fandom.com/wiki/Luther_Manning_...</td>
-      <td>Human Robot</td>
+      <td>Ghost Rider</td>
+      <td>NaN</td>
+      <td>Marvel Spotlight #5</td>
+      <td>1972-08-01</td>
+      <td>https://marvel.fandom.com/wiki/Johnathon_Blaze...</td>
       <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Luth...</td>
-      <td>1974-05-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/John...</td>
+      <td>1972-08-01</td>
     </tr>
     <tr>
-      <th>37</th>
-      <td>Cyborg</td>
+      <th>22</th>
+      <td>Human Robot</td>
       <td>DC</td>
+      <td>Cyborg</td>
+      <td>NaN</td>
       <td>DC Comics Presents #26</td>
       <td>1980-10-01</td>
       <td>https://dc.fandom.com/wiki/Victor_Stone</td>
-      <td>Human Robot</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Victor_S...</td>
       <td>1974-05-01</td>
     </tr>
     <tr>
-      <th>56</th>
-      <td>Bullseye</td>
+      <th>23</th>
+      <td>Human Robot</td>
       <td>Marvel</td>
-      <td>Daredevil #131</td>
-      <td>1975-12-01</td>
-      <td>https://marvel.fandom.com/wiki/Bullseye_(Leste...</td>
-      <td>Marksman</td>
+      <td>Deathlock</td>
+      <td>NaN</td>
+      <td>Astonishing Tales #25</td>
+      <td>1974-05-01</td>
+      <td>https://marvel.fandom.com/wiki/Luther_Manning_...</td>
       <td>1</td>
-      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Bull...</td>
-      <td>1975-12-01</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Luth...</td>
+      <td>1974-05-01</td>
     </tr>
     <tr>
-      <th>57</th>
-      <td>Deadshot</td>
+      <th>36</th>
+      <td>Marksman</td>
       <td>DC</td>
+      <td>Deadshot</td>
+      <td>NaN</td>
       <td>Detective Comics #474</td>
       <td>1977-12-01</td>
       <td>https://dc.fandom.com/wiki/Deadshot</td>
-      <td>Marksman</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Deadshot...</td>
       <td>1975-12-01</td>
     </tr>
     <tr>
-      <th>64</th>
-      <td>Wonder Twins</td>
+      <th>37</th>
+      <td>Marksman</td>
+      <td>Marvel</td>
+      <td>Bullseye</td>
+      <td>NaN</td>
+      <td>Daredevil #131</td>
+      <td>1975-12-01</td>
+      <td>https://marvel.fandom.com/wiki/Bullseye_(Leste...</td>
+      <td>1</td>
+      <td>&lt;a href = 'https://marvel.fandom.com/wiki/Bull...</td>
+      <td>1975-12-01</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Contact Twins</td>
       <td>DC</td>
+      <td>Wonder Twins</td>
+      <td>NaN</td>
       <td>Extreme Justice #9</td>
       <td>1995-10-01</td>
       <td>https://dc.fandom.com/wiki/Wonder_Twins</td>
-      <td>Contact Twins</td>
       <td>2</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Wonder_T...</td>
       <td>1979-01-01</td>
     </tr>
     <tr>
-      <th>65</th>
-      <td>Northstar &amp; Aurora</td>
+      <th>13</th>
+      <td>Contact Twins</td>
       <td>Marvel</td>
+      <td>Northstar &amp; Aurora</td>
+      <td>NaN</td>
       <td>X-Men #120</td>
       <td>1979-01-01</td>
       <td>https://marvel.fandom.com/wiki/Jean-Paul_Beaub...</td>
-      <td>Contact Twins</td>
       <td>1</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Jean...</td>
       <td>1979-01-01</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>Deathstroke</td>
+      <th>38</th>
+      <td>Masked Mercenary</td>
       <td>DC</td>
+      <td>Deathstroke</td>
+      <td>NaN</td>
       <td>New Teen Titans #2</td>
       <td>1980-12-01</td>
       <td>https://dc.fandom.com/wiki/Slade_Wilson</td>
-      <td>Masked Mercenary</td>
       <td>1</td>
       <td>&lt;a href = 'https://dc.fandom.com/wiki/Slade_Wi...</td>
       <td>1980-12-01</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Deadpool</td>
+      <th>39</th>
+      <td>Masked Mercenary</td>
       <td>Marvel</td>
+      <td>Deadpool</td>
+      <td>NaN</td>
       <td>The New Mutans #98</td>
       <td>1990-12-01</td>
       <td>https://marvel.fandom.com/wiki/Wade_Wilson_(Ea...</td>
-      <td>Masked Mercenary</td>
       <td>2</td>
       <td>&lt;a href = 'https://marvel.fandom.com/wiki/Wade...</td>
       <td>1980-12-01</td>
@@ -15975,7 +16563,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Date-Setup">Date Setup<a class="anchor-link" href="#Date-Setup">&#182;</a></h3>
+<h3 id="Axes-Setup">Axes Setup<a class="anchor-link" href="#Axes-Setup">&#182;</a></h3>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
@@ -15984,6 +16572,8 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dates</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1">#Every 5 years from 1935 to 2020.</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span> <span class="p">:</span>
     <span class="n">y</span> <span class="o">=</span> <span class="mi">1935</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">i</span>
     <span class="n">date</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">strptime</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-01-01&quot;</span><span class="p">),</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -15991,8 +16581,8 @@ a.anchor-link {
 
 <span class="n">xrange</span> <span class="o">=</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span><span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span><span class="o">.</span><span class="n">days</span>
 
+<span class="c1">#1 of each description.</span>
 <span class="n">yrange</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-
 <span class="n">all_descriptions</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">all_descriptions</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_descriptions</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">yrange</span><span class="p">)]</span>
 </pre></div>
@@ -16044,18 +16634,54 @@ a.anchor-link {
                                       <span class="n">dt</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span>
                 <span class="n">layout_yaxis_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
 
+<span class="k">def</span> <span class="nf">addImage</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">pub</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">sizex</span><span class="p">,</span> <span class="n">sizey</span><span class="p">)</span> <span class="p">:</span>
+    
+    <span class="c1">#DC.</span>
+    <span class="k">if</span> <span class="n">pub</span> <span class="o">==</span> <span class="s2">&quot;DC&quot;</span> <span class="p">:</span>
+        <span class="c1">#All-American Publications.</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">logo</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.\AAC.png&#39;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">logo</span> <span class="o">=</span> <span class="s2">&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/DC_Comics_logo.png/768px-DC_Comics_logo.png&quot;</span>
+    <span class="c1">#Marvel.</span>
+    <span class="k">else</span> <span class="p">:</span>
+        <span class="c1">#Timely.</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">logo</span> <span class="o">=</span> <span class="s2">&quot;https://upload.wikimedia.org/wikipedia/en/8/8d/Timely_Comics_Inc._logo.png&quot;</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">logo</span> <span class="o">=</span> <span class="s2">&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Marvel_Logo.svg/768px-Marvel_Logo.svg.png&quot;</span>
+    
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_layout_image</span><span class="p">(</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">logo</span><span class="p">,</span>
+        <span class="n">xref</span> <span class="o">=</span> <span class="s2">&quot;x domain&quot;</span><span class="p">,</span>
+        <span class="n">yref</span> <span class="o">=</span> <span class="s2">&quot;y domain&quot;</span><span class="p">,</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">index</span> <span class="o">/</span> <span class="n">xrange</span><span class="p">,</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">yrange</span><span class="p">,</span>
+        <span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">layer</span> <span class="o">=</span> <span class="s2">&quot;above&quot;</span><span class="p">,</span>
+        <span class="n">sizex</span> <span class="o">=</span> <span class="n">sizex</span><span class="p">,</span>
+        <span class="n">sizey</span> <span class="o">=</span> <span class="n">sizey</span><span class="p">,</span>
+        <span class="n">xanchor</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="n">yanchor</span> <span class="o">=</span> <span class="s2">&quot;middle&quot;</span><span class="p">)</span>
+
 
 <span class="c1">#Lines between points.</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">yrange</span><span class="p">)</span> <span class="p">:</span>
     
+    <span class="c1">#Y-value.</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_descriptions</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
     
+    <span class="c1">#Data frame of entries with that description.</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">d</span><span class="p">]</span>
     
+    <span class="c1">#Date of DC.</span>
     <span class="n">dc_date</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;Group&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;DC&quot;</span><span class="p">][</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span>
+    <span class="c1">#Days from earliest date.</span>
     <span class="n">dc_index</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dc_date</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span><span class="o">.</span><span class="n">days</span>
     
+    <span class="c1">#Date of Marvel.</span>
     <span class="n">marvel_date</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;Group&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Marvel&quot;</span><span class="p">][</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span>
+    <span class="c1">#Days from earliest date.</span>
     <span class="n">marvel_index</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">marvel_date</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span><span class="o">.</span><span class="n">days</span>
                 
        
@@ -16066,35 +16692,14 @@ a.anchor-link {
                   <span class="n">line</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
                               <span class="n">width</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
 
-    <span class="c1">#Marvel logo.</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">add_layout_image</span><span class="p">(</span>
-        <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Marvel_Logo.svg/768px-Marvel_Logo.svg.png&quot;</span><span class="p">,</span>
-        <span class="n">xref</span> <span class="o">=</span> <span class="s2">&quot;x domain&quot;</span><span class="p">,</span>
-        <span class="n">yref</span> <span class="o">=</span> <span class="s2">&quot;y domain&quot;</span><span class="p">,</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">marvel_index</span> <span class="o">/</span> <span class="n">xrange</span><span class="p">,</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">yrange</span><span class="p">,</span>
-        <span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">layer</span> <span class="o">=</span> <span class="s2">&quot;above&quot;</span><span class="p">,</span>
-        <span class="n">sizex</span> <span class="o">=</span> <span class="mf">0.067</span><span class="p">,</span>
-        <span class="n">sizey</span> <span class="o">=</span> <span class="mf">0.067</span><span class="p">,</span>
-        <span class="n">xanchor</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
-        <span class="n">yanchor</span> <span class="o">=</span> <span class="s2">&quot;middle&quot;</span><span class="p">)</span>
+    <span class="c1">#Marvel (Timely for first).</span>
+    <span class="n">addImage</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;Marvel&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">marvel_index</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
     
-    
-    <span class="c1">#DC logo.</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">add_layout_image</span><span class="p">(</span>
-        <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/DC_Comics_logo.png/768px-DC_Comics_logo.png&quot;</span><span class="p">,</span>
-        <span class="n">xref</span> <span class="o">=</span> <span class="s2">&quot;x domain&quot;</span><span class="p">,</span>
-        <span class="n">yref</span> <span class="o">=</span> <span class="s2">&quot;y domain&quot;</span><span class="p">,</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">dc_index</span> <span class="o">/</span> <span class="n">xrange</span><span class="p">,</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">yrange</span><span class="p">,</span>
-        <span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">layer</span> <span class="o">=</span> <span class="s2">&quot;above&quot;</span><span class="p">,</span>
-        <span class="n">sizex</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
-        <span class="n">sizey</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
-        <span class="n">xanchor</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
-        <span class="n">yanchor</span> <span class="o">=</span> <span class="s2">&quot;middle&quot;</span><span class="p">)</span>
+    <span class="c1">#DC  (National Allied for first).</span>
+    <span class="n">addImage</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;DC&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">dc_index</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">)</span>
 
+    
+    
 <span class="c1">#Hovertext Invisible points.</span>
 <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;DC&#39;</span><span class="p">,</span> <span class="s1">&#39;#4073EE&#39;</span><span class="p">),</span>
              <span class="p">(</span><span class="s1">&#39;Marvel&#39;</span><span class="p">,</span> <span class="s1">&#39;#D93626&#39;</span><span class="p">)]</span> <span class="p">:</span>
@@ -16131,7 +16736,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Rohan-Lewis">Rohan Lewis<a class="anchor-link" href="#Rohan-Lewis">&#182;</a></h4><h4 id="March-2023">March 2023<a class="anchor-link" href="#March-2023">&#182;</a></h4>
+<h4 id="Rohan-Lewis">Rohan Lewis<a class="anchor-link" href="#Rohan-Lewis">&#182;</a></h4><h4 id="March-2023-(Last-update-April-2023)">March 2023 (Last update April 2023)<a class="anchor-link" href="#March-2023-(Last-update-April-2023)">&#182;</a></h4>
 </div>
 </div>
 </body>
